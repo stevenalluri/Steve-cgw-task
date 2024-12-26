@@ -1,18 +1,16 @@
-# Salesforce DX Project: Next Steps
+Salesforce Data Modelling:
+Created two Custom objects 'Invoice' and 'Line Item' with the necessary fields as mentioned in the document. Attached the screenshots in the email.
+We can use the Standard Salesforce objects where we have 'Invoice' and 'InvoiceLine' objects for the same use case but due to dev org billing requirement, we are not able to create any invoices. So, created the custom objects.
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+Git:
+Created a public git repository under the name “Steve-cgw-task” and pushed the vf page, apex class
 
-## How Do You Plan to Deploy Your Changes?
+Visualforce page:
+Created a visual force page to display the table with url parameters. We are initialising the values in constructor of the apex class and displaying the data using a html table.
+Salesforce is encoding the URL parameters. Attaching the decoded screenshot in the email
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+Apex class:
+Created an apex class with the name “CreateInvoiceController”, declared the variables with appropriate data types and initialised them in the constructor. Added null checks before assigning the values to variables to avoid null pointer exceptions and wrapped the assignments in a try catch block for better error handling. Added the appropriate type castings and vulnerability handling.
 
-## Configure Your Salesforce DX Project
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+Opportunity object:
+Created a detail page button with the name Create Invoice which redirects to the visual force page and passes the parameters from the record. Added the button to opportunity layout.
