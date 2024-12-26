@@ -8,5 +8,9 @@
         <members>CreateInvoice</members>
         <name>ApexPage</name>
     </types>
+    <types>
+        <members>Opportunity.Create_Invoice</members>
+        <name>WebLink</name>
+    </types>
     <version>62.0</version>
 </Package>
