@@ -1,0 +1,56 @@
+<apex:page controller="CreateInvoiceController">
+    <style>
+        html, body {
+        	height: 100vh;
+        	width: 100vw;
+        }
+        .url-params-table-container {
+        	height: 100%;
+        	width: 100%;
+        	display: flex;
+        	align-items: center;
+        	justify-content: center;
+        }
+        table, tr, td {
+        	border: 1px solid black;
+        	border-collapse: collapse;
+        	font-size: 1rem;
+        }
+    </style>
+    <div class="url-params-table-container">
+        <table>
+            <tr>
+                <td>origin_record</td>
+                <td>{!origin_record}</td>
+            </tr>
+            <tr>
+                <td>account</td>
+                <td>{!account}</td>
+            </tr>
+            <tr>
+                <td>invoice_date</td>
+                <td>{!invoice_date}</td>
+            </tr>
+            <tr>
+                <td>invoice_due_date</td>
+                <td>{!invoice_due_date}</td>
+            </tr>
+            <tr>
+                <td>child_relationship_name</td>
+                <td>{!child_relationship_name}</td>
+            </tr>
+            <tr>
+                <td>line_item_description</td>
+                <td>{!line_item_description}</td>
+            </tr>
+            <tr>
+                <td>line_item_quantity</td>
+                <td>{!line_item_quantity}</td>
+            </tr>
+            <tr>
+                <td>line_item_unit_price</td>
+                <td>{!line_item_unit_price}</td>
+            </tr>
+        </table>
+    </div>
+</apex:page>
