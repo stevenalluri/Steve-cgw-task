@@ -1,56 +1,72 @@
 <apex:page controller="CreateInvoiceController">
-    <style>
-        html, body {
-        	height: 100vh;
-        	width: 100vw;
-        }
-        .url-params-table-container {
-        	height: 100%;
-        	width: 100%;
-        	display: flex;
-        	align-items: center;
-        	justify-content: center;
-        }
-        table, tr, td {
-        	border: 1px solid black;
-        	border-collapse: collapse;
-        	font-size: 1rem;
-        }
-    </style>
-    <div class="url-params-table-container">
-        <table>
-            <tr>
-                <td>origin_record</td>
-                <td>{!origin_record}</td>
-            </tr>
-            <tr>
-                <td>account</td>
-                <td>{!account}</td>
-            </tr>
-            <tr>
-                <td>invoice_date</td>
-                <td>{!invoice_date}</td>
-            </tr>
-            <tr>
-                <td>invoice_due_date</td>
-                <td>{!invoice_due_date}</td>
-            </tr>
-            <tr>
-                <td>child_relationship_name</td>
-                <td>{!child_relationship_name}</td>
-            </tr>
-            <tr>
-                <td>line_item_description</td>
-                <td>{!line_item_description}</td>
-            </tr>
-            <tr>
-                <td>line_item_quantity</td>
-                <td>{!line_item_quantity}</td>
-            </tr>
-            <tr>
-                <td>line_item_unit_price</td>
-                <td>{!line_item_unit_price}</td>
-            </tr>
-        </table>
-    </div>
-</apex:page>
+        <style>
+            html, body {
+            height: 100vh;
+            width: 100vw;
+            }
+            .container {
+            height: 100%;
+            width: 100%;
+            }
+            table, tr, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            font-size: 1rem;
+            }
+            .my-10px {
+            margin: 10px 0px;
+            }
+        </style>
+        <div class="container">
+            <apex:form >
+                <apex:outputPanel id="url-params" rendered="{!boolShowURLParams}">
+                    <div>
+                        <table>
+                            <tr>
+                                <td>origin_record</td>
+                                <td>{!oppRecord.Id}</td>
+                            </tr>
+                            <tr>
+                                <td>account</td>
+                                <td>{!oppRecord.AccountId}</td>
+                            </tr>
+                            <tr>
+                                <td>invoice_date</td>
+                                <td>{!oppRecord.CloseDate}</td>
+                            </tr>
+                            <tr>
+                                <td>invoice_due_date</td>
+                                <td>{!oppRecord.Invoice_Due_Date__c}</td>
+                            </tr>
+                            <tr>
+                                <td>child_relationship_name</td>
+                                <td>{!child_relationship_name}</td>
+                            </tr>
+                            <tr>
+                                <td>line_item_description</td>
+                                <td>{!oppRecord.Description}</td>
+                            </tr>
+                            <tr>
+                                <td>line_item_quantity</td>
+                                <td>{!oppRecord.Quantity__c}</td>
+                            </tr>
+                            <tr>
+                                <td>line_item_unit_price</td>
+                                <td>{!oppRecord.Amount}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="my-10px">
+                        <apex:commandButton action="{!displayJSON}" reRender="xeroJSON, xeroError" value="Show JSON" />
+                        
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel id="xeroJSON" rendered="{!boolShowJSON}">
+                    
+                </apex:outputPanel>
+                <apex:outputPanel id="xeroError" rendered="{!boolShowError}">
+                    Something went wrong when parsing JSON, please contact administrator.
+                </apex:outputPanel>
+            </apex:form>
+        </div>
+    </apex:page>

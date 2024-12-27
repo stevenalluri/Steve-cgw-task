@@ -16,5 +16,5 @@
     <protected>false</protected>
     <showsLocation>false</showsLocation>
     <showsStatus>false</showsStatus>
-    <url>/apex/CreateInvoice?origin_record={!Opportunity.Id}&amp;account={!Opportunity.AccountId}&amp;invoice_date={!Opportunity.CloseDate}&amp;invoice_due_date={!Opportunity.OrderNumber__c}&amp;child_relationship_name=opportunity&amp;line_item_description={!Opportunity.Description}&amp;line_item_quantity={!Opportunity.Quantity__c}&amp;line_item_unit_price={!Opportunity.Amount}</url>
+    <url>/apex/CreateInvoice?origin_record={!Opportunity.Id}&amp;account={!Opportunity.AccountId}&amp;invoice_date={!Opportunity.CloseDate}&amp;invoice_due_date={!Opportunity.Invoice_Due_Date__c}&amp;child_relationship_name=opportunity&amp;line_item_description={!Opportunity.Description}&amp;line_item_quantity={!Opportunity.Quantity__c}&amp;line_item_unit_price={!Opportunity.Amount}</url>
 </WebLink>
