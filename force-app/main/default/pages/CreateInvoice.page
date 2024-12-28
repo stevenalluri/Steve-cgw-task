@@ -1,72 +1,112 @@
 <apex:page controller="CreateInvoiceController">
         <style>
             html, body {
-            height: 100vh;
-            width: 100vw;
+                height: 100vh;
+                width: 100vw;
             }
             .container {
-            height: 100%;
-            width: 100%;
+                height: 100%;
+                width: 100%;
             }
             table, tr, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            font-size: 1rem;
+                border: 1px solid black;
+                border-collapse: collapse;
             }
             .my-10px {
-            margin: 10px 0px;
+                margin: 10px 0px;
+            }
+            .font-med {
+            	font-size: 1rem;
             }
         </style>
         <div class="container">
             <apex:form >
-                <apex:outputPanel id="url-params" rendered="{!boolShowURLParams}">
-                    <div>
-                        <table>
-                            <tr>
-                                <td>origin_record</td>
-                                <td>{!oppRecord.Id}</td>
-                            </tr>
-                            <tr>
-                                <td>account</td>
-                                <td>{!oppRecord.AccountId}</td>
-                            </tr>
-                            <tr>
-                                <td>invoice_date</td>
-                                <td>{!oppRecord.CloseDate}</td>
-                            </tr>
-                            <tr>
-                                <td>invoice_due_date</td>
-                                <td>{!oppRecord.Invoice_Due_Date__c}</td>
-                            </tr>
-                            <tr>
-                                <td>child_relationship_name</td>
-                                <td>{!child_relationship_name}</td>
-                            </tr>
-                            <tr>
-                                <td>line_item_description</td>
-                                <td>{!oppRecord.Description}</td>
-                            </tr>
-                            <tr>
-                                <td>line_item_quantity</td>
-                                <td>{!oppRecord.Quantity__c}</td>
-                            </tr>
-                            <tr>
-                                <td>line_item_unit_price</td>
-                                <td>{!oppRecord.Amount}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="my-10px">
-                        <apex:commandButton action="{!displayJSON}" reRender="xeroJSON, xeroError" value="Show JSON" />
-                        
-                    </div>
-                </apex:outputPanel>
-                <apex:outputPanel id="xeroJSON" rendered="{!boolShowJSON}">
-                    
-                </apex:outputPanel>
-                <apex:outputPanel id="xeroError" rendered="{!boolShowError}">
-                    Something went wrong when parsing JSON, please contact administrator.
-                </apex:outputPanel>
+                <apex:pageBlock id="url-params-container">
+                	<apex:outputPanel id="url-params" rendered="{!IF(boolShowURLParams == true, true, false)}">
+                        <div>
+                            <table class="font-med">
+                                <tr>
+                                    <td>origin_record</td>
+                                    <td>{!origin_record}</td>
+                                </tr>
+                                <tr>
+                                    <td>account</td>
+                                    <td>{!account}</td>
+                                </tr>
+                                <tr>
+                                    <td>invoice_date</td>
+                                    <td>{!invoice_date}</td>
+                                </tr>
+                                <tr>
+                                    <td>invoice_due_date</td>
+                                    <td>{!invoice_due_date}</td>
+                                </tr>
+                                <tr>
+                                    <td>child_relationship_name</td>
+                                    <td>{!child_relationship_name}</td>
+                                </tr>
+                                <tr>
+                                    <td>line_item_description</td>
+                                    <td>{!line_item_description}</td>
+                                </tr>
+                                <tr>
+                                    <td>line_item_quantity</td>
+                                    <td>{!line_item_quantity}</td>
+                                </tr>
+                                <tr>
+                                    <td>line_item_unit_price</td>
+                                    <td>{!line_item_unit_price}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="my-10px">
+                            <apex:commandButton action="{!displayJSON}" reRender="url-params-container" value="Show JSON" />
+                        </div>
+                    </apex:outputPanel>
+                    <apex:outputPanel styleClass="font-med my-10px" id="xeroJSON" rendered="{!IF(boolShowJSON == true, true, false)}">
+                        <div>
+                            Invoice type: {!xero.invoiceType}
+                        </div>
+                        <div>
+                            Contact: {!xero.contact}
+                        </div>
+                        <div>
+                            Invoice date: {!xero.invoiceDate}
+                        </div>
+                        <div>
+                            Invoice due date: {!xero.invoiceDueDate}
+                        </div>
+                        <div>
+                            <apex:repeat value="{!xero.lineItems}" var="item" id="lineItem">
+                                <div>
+                                    Item Code: {!item.itemCode}
+                                </div>
+                                <div>
+                                    Description: {!item.description}
+                                </div>
+                                <div>
+                                    Quantity: {!item.quantity}
+                                </div>
+                                <div>
+                                    Unit price: {!item.unitAmount}
+                                </div>
+                                <div>
+                                    Amount: {!item.lineAmount}
+                                </div>
+                                <div>
+                                    Account Code: {!item.accountCode}
+                                </div>
+                                <br />
+                            </apex:repeat>
+                        </div>
+                        <div>
+                            <apex:commandButton reRender="url-params-container" value="Proceed to Create Invoice" />
+                        </div>
+                    </apex:outputPanel>
+                    <apex:outputPanel id="xeroError" rendered="{!IF(boolShowError == true, true, false)}">
+                        Something went wrong when parsing JSON, please contact administrator.
+                    </apex:outputPanel>
+                </apex:pageBlock>
             </apex:form>
         </div>
     </apex:page>
