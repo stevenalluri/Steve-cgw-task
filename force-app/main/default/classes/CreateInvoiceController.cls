@@ -1,35 +1,41 @@
 public class CreateInvoiceController {
     
-    public Class LineItemWrapper {
-        public String description {get;set;}
-        public Integer quantity {get;set;}
-        public Double unitAmount {get;set;}
-        public String itemCode {get;set;}
-        public String accountCode {get;set;}
-        public String lineItemId {get;set;}
-        public String taxType {get;set;}
-        public Double taxAmount {get;set;}
-        public Double lineAmount {get;set;}
-        public Double discountAmount {get;set;}
-        public String tracking {get;set;}
+    public class LineItemWrapper {
+        public String Description {get;set;}
+        public Integer Quantity {get;set;}
+        public Double UnitAmount {get;set;}
+        public String ItemCode {get;set;}
+        public String AccountCode {get;set;}
+        public String LineItemId {get;set;}
+        public String TaxType {get;set;}
+        public Double TaxAmount {get;set;}
+        public Double LineAmount {get;set;}
+        public Double DiscountAmount {get;set;}
+        public String Tracking {get;set;}
+    }
+    
+    public class ContactWrapper {
+        public String ContactId {get;set;}
     }
     
     public class XeroWrapper {
-        public String invoiceType {get;set;}
-        public String contact {get;set;}
-        public LineItemWrapper[] lineItems {get;set;}
-        public Date invoiceDate {get;set;}
-        public Date invoiceDueDate {get;set;}
-        public String lineAmountType {get;set;}
-        public String invoiceNumber {get;set;}
-        public String reference {get;set;}
-        public String url {get;set;}
-        public String currencyCode {get;set;}
-        public String currencyRate {get;set;}
-        public String status {get;set;}
-        public Boolean sentToContact {get;set;}
-        public Date expectedPaymentDate {get;set;}
-        public Date plannedPaymentDate {get;set;}
+        public String Type {get;set;}
+        public ContactWrapper Contact {get;set;}
+        public LineItemWrapper[] LineItems {get;set;}
+        public String InvoiceDate {get;set;}
+        public Date InvoiceDateString {get;set;}
+        public String DueDate {get;set;}
+        public Date DueDateString {get;set;}
+        public String LineAmountTypes {get;set;}
+        public String InvoiceNumber {get;set;}
+        public String Reference {get;set;}
+        public String Url {get;set;}
+        public String CurrencyCode {get;set;}
+        public String CurrencyRate {get;set;}
+        public String Status {get;set;}
+        public Boolean SentToContact {get;set;}
+        public Date ExpectedPaymentDate {get;set;}
+        public Date PlannedPaymentDate {get;set;}
     }
     
     public Id origin_record {get;set;}
@@ -48,6 +54,7 @@ public class CreateInvoiceController {
     public List<Line_Item__c> listLineItems {get;set;}
     public List<Invoice__c> listInvoices {get;set;}
     public XeroWrapper xero {get;set;}
+    public static String jsonString {get;set;}
     
     public CreateInvoiceController() {
         try {
@@ -56,15 +63,15 @@ public class CreateInvoiceController {
             Map<String, Object> opptyBinds = new Map<String, Object>();
             List<String> listFieldApiNames = new List<String>();
             if (ApexPages.currentPage().getParameters().get('origin_record') != null) {
-               origin_record = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('origin_record'));
-               opptyBinds.put('origin_record', origin_record);
+                origin_record = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('origin_record'));
+                opptyBinds.put('origin_record', origin_record);
             }
             if (ApexPages.currentPage().getParameters().get('account') != null) {
-				account = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('account'));
+                account = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('account'));
                 listFieldApiNames.add(account);
             }
             if (ApexPages.currentPage().getParameters().get('invoice_date') != null) {
-            	invoice_date = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('invoice_date'));
+                invoice_date = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('invoice_date'));
                 listFieldApiNames.add(invoice_date);
             }
             if (ApexPages.currentPage().getParameters().get('invoice_due_date') != null) {
@@ -72,7 +79,7 @@ public class CreateInvoiceController {
                 listFieldApiNames.add(invoice_due_date);
             }
             if (ApexPages.currentPage().getParameters().get('child_relationship_name') != null) {
-            	child_relationship_name = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('child_relationship_name'));
+                child_relationship_name = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('child_relationship_name'));
                 listFieldApiNames.add(child_relationship_name);
             }
             if (ApexPages.currentPage().getParameters().get('line_item_description') != null) {
@@ -80,11 +87,11 @@ public class CreateInvoiceController {
                 listFieldApiNames.add(line_item_description);
             }
             if (ApexPages.currentPage().getParameters().get('line_item_quantity') != null) {
-            	line_item_quantity = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('line_item_quantity'));  
+                line_item_quantity = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('line_item_quantity'));  
                 listFieldApiNames.add(line_item_quantity);
             }
             if (ApexPages.currentPage().getParameters().get('line_item_unit_price') != null) {
-             	line_item_unit_price = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('line_item_unit_price'));
+                line_item_unit_price = String.escapeSingleQuotes(ApexPages.currentPage().getParameters().get('line_item_unit_price'));
                 listFieldApiNames.add(line_item_unit_price);
             }
             if (origin_record != null) {
@@ -117,42 +124,41 @@ public class CreateInvoiceController {
     }
     
     public void displayJSON() {
-        System.debug('Displaying JSON');
         try {
-			xero = new XeroWrapper();
-            xero.invoiceType = 'ACCPAY';
-            xero.contact = '00000';
-            xero.invoiceDate = oppRecord.CloseDate;
-            xero.invoiceDueDate = oppRecord.Invoice_Due_Date__c;
+            xero = new XeroWrapper();
+            xero.Type = 'ACCREC';
+            xero.Contact = new ContactWrapper();
+            xero.Contact.ContactId = '0000000';
+            xero.InvoiceDate = '/Date(' + String.valueOf(datetime.newInstance(oppRecord.CloseDate.year(), oppRecord.CloseDate.month(), oppRecord.CloseDate.day()).getTime()) + ')/';
+            xero.InvoiceDateString = oppRecord.CloseDate;
+            xero.DueDate = '/Date(' + String.valueOf(datetime.newInstance(oppRecord.Invoice_Due_Date__c.year(), oppRecord.Invoice_Due_Date__c.month(), oppRecord.Invoice_Due_Date__c.day()).getTime()) + ')/';
+            xero.DueDateString = oppRecord.Invoice_Due_Date__c;
+            xero.Status = 'DRAFT';
             xero.lineItems = new List<LineItemWrapper>();
             for (OpportunityLineItem lineItem: oppRecord.OpportunityLineItems) {
                 LineItemWrapper lineItemWrap = new LineItemWrapper();
-                lineItemWrap.description = lineItem.Description;
-                lineItemWrap.lineItemId = lineItem.Id;
-                lineItemWrap.itemCode = lineItem.Name;
-                lineItemWrap.quantity = Integer.valueOf(lineItem.Quantity);
-                lineItemWrap.unitAmount = lineItem.UnitPrice;
-                lineItemWrap.accountCode = oppRecord.AccountId;
-                lineItemWrap.taxType = 'INPUT';
-                lineItemWrap.taxAmount = 0;
-                lineItemWrap.lineAmount = lineItem.Quantity * lineItem.UnitPrice;
-                lineItemWrap.discountAmount = 0;
+                lineItemWrap.Description = lineItem.Description;
+                lineItemWrap.LineItemId = lineItem.Id;
+                lineItemWrap.ItemCode = lineItem.Name;
+                lineItemWrap.Quantity = Integer.valueOf(lineItem.Quantity);
+                lineItemWrap.UnitAmount = lineItem.UnitPrice;
+                lineItemWrap.AccountCode = oppRecord.AccountId;
+                lineItemWrap.TaxType = 'INPUT';
+                lineItemWrap.TaxAmount = 0;
+                lineItemWrap.LineAmount = lineItem.Quantity * lineItem.UnitPrice;
+                lineItemWrap.DiscountAmount = 0;
                 xero.lineItems.add(lineItemWrap);
             }
             boolShowJSON = true;
             boolShowURLParams = false;
-            System.debug(xero + ' xero');
+            jsonString = JSON.serializePretty(xero, true);
+            System.debug(jsonString + ' jsonString');
         }
         catch (Exception e) {
             System.debug('Exception occured when initializing wrapper -> ' + e.getMessage());
             boolShowError = true;
             boolShowJSON = false;
             boolShowURLParams = false;
-        }
-        finally {
-            System.debug('boolShowError -> ' + boolShowError);
-            System.debug('boolShowJSON -> ' + boolShowJSON);
-            System.debug('boolShowURLParams -> ' + boolShowURLParams);
         }
     }
     
