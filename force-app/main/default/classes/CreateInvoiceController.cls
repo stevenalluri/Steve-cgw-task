@@ -137,7 +137,7 @@ public class CreateInvoiceController {
             xero.lineItems = new List<LineItemWrapper>();
             for (OpportunityLineItem lineItem: oppRecord.OpportunityLineItems) {
                 LineItemWrapper lineItemWrap = new LineItemWrapper();
-                lineItemWrap.Description = lineItem.Description;
+                lineItemWrap.Description = line_item_description;
                 lineItemWrap.LineItemId = lineItem.Id;
                 lineItemWrap.ItemCode = lineItem.Name;
                 lineItemWrap.Quantity = Integer.valueOf(lineItem.Quantity);
